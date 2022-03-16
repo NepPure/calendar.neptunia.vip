@@ -1,0 +1,111 @@
+// 该文件为全局配置，可以写入全局变量或者全局方法或者样式
+
+// 页面距离两侧边缘需要预留的间隙
+@pagepadding: 80px;
+
+// 主体区域的最小值与最大值
+@minMain: 1000px;
+@maxMain: 1280px;
+@minMainNum: 1000; // 部分计算不能带单位
+@maxMainNum: 1280; // 部分计算不能带单位
+
+// 页面主体适配的最小分辨率和最大分辨率
+@min: calc(@minMain + @pagepadding * 2);
+@max: calc(@maxMain + @pagepadding * 2);
+@designwidth: 1280px;
+@designRem: 12.8rem; // 页面主体区域对应的rem值
+
+// 首页配色
+@home-title-color: #fff;
+@home-text-color: #bababa;
+@home-bg-color: #161616;
+@home-block-bg-color: #1e1e21;
+@home-block-bg2-color: #232329;
+@home-a-color: #959595;
+@home-a-hover-color: #ddd;
+@home-scroll-color: #588ee6;
+@home-title-font: "Microsoft YaHei", "微软雅黑", "Helvetica Neue", Helvetica,
+  "PingFang SC", "Hiragino Sans GB", Arial, sans-serif;
+
+// 英文字体
+@font-face {
+  font-family: "FFXIV-EN";
+  src: url("~/assets/font/EORZEA.TTF") format("truetype");
+}
+.xiv-en {
+  font-family: "FFXIV-EN", sans-serif;
+}
+
+// 首页光标悬停动画
+.cursorAniDom {
+  content: " ";
+  transition: all 0.8s ease-out;
+  display: block;
+  position: absolute;
+  left: -0.25rem;
+  top: Calc(~"50% - 0.25rem");
+  width: 0.5rem;
+  height: 0.5rem;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("~assets/img/home/cursor.png");
+  -webkit-animation: 0.6s ease-out infinite running cursorAni;
+  animation: 0.6s ease-out infinite running cursorAni;
+  pointer-events: none;
+}
+@-webkit-keyframes cursorAni {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(0.03rem);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+@keyframes cursorAni {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(0.03rem);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+// 长文本滚动
+.tl-item,
+.tl-item > div {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.text-loop:hover > div {
+  white-space: nowrap;
+  -webkit-animation: 2s textLoop linear infinite alternate;
+  animation: 2s textLoop linear infinite alternate;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+
+@-webkit-keyframes textLoop {
+  0% {
+    transform: translateX(0px);
+  }
+  100% {
+    transform: translateX(Calc(~"var(--text-width) - 100% - 0.5em"));
+  }
+}
+
+@keyframes textLoop {
+  0% {
+    transform: translateX(0px);
+  }
+  100% {
+    transform: translateX(Calc(~"var(--text-width) - 100% - 0.5em"));
+  }
+}

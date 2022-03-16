@@ -1,0 +1,82 @@
+@import url("./normalize.css");
+@import url("./global.less");
+:root {
+  --bgColor: #161616;
+}
+
+body {
+  overflow: overlay;
+}
+.temp-def {
+  position: relative;
+  background-color: var(--bgColor);
+}
+.page-container {
+  min-width: @min;
+  max-width: @max;
+  margin: 0 auto;
+  padding: 0 @pagepadding;
+  background-color: var(--bgColor);
+  position: relative;
+}
+
+.ie-tips {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #161616;
+  &__container {
+    width: 960px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  &__header {
+    height: 80px;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-image: url(~assets/img/ie-tips/head.png);
+  }
+  &__middle {
+    margin-top: -1px;
+    background-size: 100%;
+    background-image: url(~assets/img/ie-tips/middle.png);
+    text-align: center;
+    padding-bottom: 100px;
+  }
+  &__bottom {
+    margin-top: -1px;
+    height: 89px;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-image: url(~assets/img/ie-tips/bottom.png);
+  }
+  &__content {
+    font-size: 16px;
+  }
+  &__padding {
+    height: 50px;
+  }
+  &__desc {
+    color: #9da2a2;
+  }
+  &__img {
+    width: 121px;
+    position: absolute;
+    right: 100px;
+    bottom: 69px;
+    transform: rotate(16deg);
+    opacity: 0.8;
+  }
+  &__sign {
+    font-family: "FFXIV-EN", sans-serif;
+    font-size: 20px;
+    position: absolute;
+    right: 93px;
+    bottom: 81px;
+    color: #63625e;
+  }
+}
