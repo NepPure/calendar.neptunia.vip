@@ -105,8 +105,6 @@ const template =
 
 import Vue from "../public/js/vue.js";
 import { request } from "../public/js/src.js";
-import moment from "../public/js/moment.js"
-import * as _ from "../public/js/lodash-es/lodash.js"
 
 export default Vue.defineComponent({
 	name: "InfoApp",
