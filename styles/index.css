@@ -314,8 +314,7 @@ body {
 }
 .calendar-wapper {
   padding-left: 6px;
-  width: 540px;
-  background-color: #090909;
+  width: 560px;
   display: flex;
   align-items: center;
   justify-content: center;

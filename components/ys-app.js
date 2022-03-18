@@ -104,9 +104,9 @@ const template =
 </div>`;
 
 import Vue from "../public/js/vue.js";
-import { parseURL } from "../public/js/src.js";
-
-
+import { request } from "../public/js/src.js";
+import moment from "../public/js/moment.js"
+import * as _ from "../public/js/lodash-es/lodash.js"
 
 export default Vue.defineComponent({
 	name: "InfoApp",
@@ -116,86 +116,117 @@ export default Vue.defineComponent({
 	},
 	data() {
 		return {
+			listApi: 'https://api-takumi.neppure.vip/common/hk4e_cn/announcement/api/getAnnList?game=hk4e&game_biz=hk4e_cn&lang=zh-cn&bundle_id=hk4e_cn&platform=pc&region=cn_gf01&level=55&uid=100000000',
+			detailApi: 'https://api-takumi.neppure.vip/common/hk4e_cn/announcement/api/getAnnContent?game=hk4e&game_biz=hk4e_cn&lang=zh-cn&bundle_id=hk4e_cn&platform=pc&region=cn_gf01&level=55&uid=100000000',
+			ignoredKeyWords: [
+				"修复",
+				"版本内容专题页",
+				"米游社",
+				"调研",
+				"防沉迷",
+				"问卷",
+				"公平运营"
+			],
 			tableHeaderData: [],
 			weekUnixData: [],
-			evetData: []
-		}
-	},
-	computed: {
-		eventCalendar() {
-			return [
-				{
-					startDate: '2022/2/14', // 开始日期
-					endDate: '2022/3/11', // 结束日期
-					startTime: '', // 开始时间 可以不填，填了会展示，
-					endTime: '13:59', // 结束时间 可以不填，填了会展示
-					abbreviation: '恋人节&女儿节', // 缩写（直接展示）
-					eventName: '恋人节&女儿节', // 全称（悬停超过1秒才会显示）
-					link: 'https://actff1.web.sdo.com/project/20220214ValentionesLittleLadiesDay/index.html',
-					color: '#f764ad', // 标签颜色
-					// img: require('~/assets/img/event/event1@2x.png'), // 背景图片
-				},
-				{
-					startDate: '2022/3/11',
-					endDate: '2022/3/11',
-					abbreviation: 'Live直播',
-					eventName: 'LIVE直播第66弹！6.0版本预热！',
-					startTime: '19:00',
-					link: 'https://live.bilibili.com/5225',
-					color: '#2196f3',
-					// img: require('~/assets/img/event/liveChina@2x.png')
-				},
-				{
-					startDate: '2022/1/18',
-					endDate: '2022/3/15',
-					abbreviation: '莫古大收集',
-					eventName: '莫古莫古★大收集 ~炎狱的传承~',
-					link: 'https://actff1.web.sdo.com/project/20220111mogu/index.html',
-					color: '#ffc107',
-					// endTime: '09:59',
-					// img: require('~/assets/img/event/event2@2x.png')
-				},
-				{
-					startDate: '2022/1/18',
-					endDate: '2022/3/15',
-					abbreviation: 'pvp坐骑',
-					eventName: '第20赛季强者之证 坐骑获取',
-					link: 'https://bbs.nga.cn/read.php?tid=29319507&page=1&rand=60',
-					color: '#580dda',
-					endTime: '09:59',
-					// img: require('~/assets/img/event/event3@2x.png')
-				},
-				{
-					startDate: '2022/3/15',
-					endDate: '2022/3/16',
-					abbreviation: '更新维护',
-					eventName: '6.0版本更新服务器维护',
-					link: 'https://ff.web.sdo.com/web8/index.html#/newstab/newscont/337516',
-					color: '#e91e63',
-					endTime: '09:59',
-					// img: require('~/assets/img/event/event4@2x.jpeg')
-				},
-				{
-					startDate: '2022/3/16',
-					endDate: '2022/3/16',
-					abbreviation: '6.0上线',
-					eventName: '国服6.0上线',
-					link: 'https://ff.web.sdo.com/web8/index.html#/newstab/newscont/337516',
-					color: '#2196f3',
-					startTime: '10:00',
-					// img: require('~/assets/img/event/event4@2x.jpeg')
-				}
-			];
+			evetData: [],
+			eventCalendar: []
 		}
 	},
 	methods: {
 		init() {
+			// 从api获取数据
+			this.initRemoteData();
 			// 获取最近7天的数据
 			this.getWeekUnixData();
 			// 处理日历表头数据
 			this.getTableHeaderData();
 			// 处理活动列表数据
 			this.evetDataHandle();
+		},
+
+		initRemoteData() {
+			let result = request(this.listApi)
+			let detailResult = request(this.detailApi)
+
+			if (result.retcode !== 0 || detailResult.retcode !== 0) {
+				console.error('接口数据异常');
+				return;
+			}
+
+			const regex = /(\d+)\/(\d+)\/(\d+)\s(\d+):(\d+):(\d+)/i;
+
+			let eventData = [];
+			let eventDetail = {};
+			for (let detail of detailResult['data']['list']) {
+				eventDetail[detail['ann_id']] = detail;
+			}
+			let datalist = result['data']['list']
+			for (let data of datalist) {
+				for (let item of data['list']) {
+					// 对公告进行过滤
+					let ignore = false;
+					for (let keyword of this.ignoredKeyWords) {
+						if (item['title'].indexOf(keyword) > 0) {
+							ignore = true;
+							break;
+						}
+					}
+
+					if (ignore) {
+						break;
+					}
+
+					let start = moment(item['start_time']);
+					let end = moment(item['end_time'])
+
+					// 从正文查找修正开始时间
+					if (eventDetail[item["ann_id"]]) {
+						let content = eventDetail[item["ann_id"]]['content'];
+						let datalist = content.match(regex);
+						if (datalist && datalist.length >= 6) {
+							let ctime = moment(datalist[0])
+							if (ctime > start && ctime < end) {
+								start = ctime
+							}
+						}
+					}
+
+					let event = {
+						start: start,
+						end: end,
+						startDate: start.format('YYYY/MM/DD'), // 开始日期
+						endDate: end.format('YYYY/MM/DD'), // 结束日期
+						startTime: start.format('HH:mm'), // 开始时间 可以不填，填了会展示，
+						endTime: end.format('HH:mm'), // 结束时间 可以不填，填了会展示
+						abbreviation: item['title'], // 缩写（直接展示）
+						eventName: item['subtitle'], // 全称（悬停超过1秒才会显示）
+						type: 1,
+						link: '',
+						color: '#2196f3', // 标签颜色#2196f3 常规 #ffc107 卡池 #580dda 深渊 #f764ad 活动
+						img: item['banner'], // 背景图片
+					}
+
+					if (item['tag_label'].indexOf('扭蛋') >= 0) {
+						event.type = 3
+						event.color = '#ffc107'
+					} else if (item['tag_label'].indexOf('活动') >= 0) {
+						event.type = 2
+						event.color = '#f764ad'
+					}
+
+
+
+					this.eventCalendar.push(event);
+				}
+
+				this.eventCalendar = _
+					.chain(this.eventCalendar)
+					.orderBy(['type', 'end'], ['desc', 'asc'])
+					.value()
+			}
+
+
 		},
 
 		/**
@@ -264,7 +295,7 @@ export default Vue.defineComponent({
 				// 判定该活动时间是否需要展示
 				if ((startDateUnix <= lastDayUinx) && (endDateUnix >= fristDayUinx)) {
 					// 当前活动列表数组长度小于4，由于小屏banner高度不够，最多只能显示4个活动
-					if (sum < 4) {
+					if (true) {
 						// 获取开始日期和结束日期在日历上对应的索引
 						const timeIndex = this.getCalendarIndex(item.startDate, item.endDate);
 						const { startTimeIndex, endTimeIndex } = timeIndex;
