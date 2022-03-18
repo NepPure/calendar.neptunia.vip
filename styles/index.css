@@ -313,10 +313,13 @@ body {
   border-color: rgba(0, 0, 0, 0.5) transparent transparent transparent;
 }
 .calendar-wapper {
-  width: 544px;
+  padding-right: 5px;
+  width: 549px;
+  background-color: #f3f3f3;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 10px;
 }
 .m-events-calendar__table-header-week {
   color: #cecece;

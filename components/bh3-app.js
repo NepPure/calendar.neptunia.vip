@@ -9,16 +9,19 @@ export default Vue.defineComponent({
 	},
 	data() {
 		return {
-			listApi: 'https://api-takumi.neppure.vip/common/hk4e_cn/announcement/api/getAnnList?game=hk4e&game_biz=hk4e_cn&lang=zh-cn&bundle_id=hk4e_cn&platform=pc&region=cn_gf01&level=55&uid=100000000',
-			detailApi: 'https://api-takumi.neppure.vip/common/hk4e_cn/announcement/api/getAnnContent?game=hk4e&game_biz=hk4e_cn&lang=zh-cn&bundle_id=hk4e_cn&platform=pc&region=cn_gf01&level=55&uid=100000000',
+			listApi: 'https://api-takumi.neppure.vip/common/bh3_cn/announcement/api/getAnnList?game=bh3&game_biz=bh3_cn&lang=zh-cn&sdk_presentation_style=fullscreen&sdk_screen_transparent=true&auth_appid=announcement&authkey_ver=1&sign_type=2&region=ios01&bundle_id=com.miHoYo.bh3&uid=51000000&level=88&platform=ios&channel_id=1&ann_id=1689',
+			detailApi: 'https://api-takumi.neppure.vip/common/bh3_cn/announcement/api/getAnnContent?game=bh3&game_biz=bh3_cn&lang=zh-cn&bundle_id=com.miHoYo.bh3&platform=ios&region=ios01&t=1647600991&level=88&channel_id=1',
 			ignoredKeyWords: [
+				"封号",
 				"修复",
-				"版本内容专题页",
-				"米游社",
-				"调研",
+				"爱酱&帮助",
+				"公平运营",
 				"防沉迷",
-				"问卷",
-				"公平运营"
+				"客服",
+				"隐私",
+				"米游社",
+				"攻略",
+				"社区"
 			],
 			tableHeaderData: [],
 			weekUnixData: [],
@@ -47,7 +50,7 @@ export default Vue.defineComponent({
 				return;
 			}
 
-			const regex = /(\d+)\/(\d+)\/(\d+)\s(\d+):(\d+):(\d+)/i;
+			const regex = /(\d{4,})?年?(\d+)月(\d+)日(\d+):(\d+)(?:(?:~|-)(?:\d{4,})?年?(?:\d+)月(?:\d+)日(?:\d+):(?:\d+))?/i;
 
 			let eventDetail = {};
 			for (let detail of detailResult['data']['list']) {
@@ -73,11 +76,16 @@ export default Vue.defineComponent({
 					let end = moment(item['end_time'])
 
 					// 从正文查找修正开始时间
-					if (eventDetail[item["ann_id"]]) {
+					if (eventDetail[item["ann_id"]] &&
+						eventDetail[item["ann_id"]]['content'].indexOf('版本更新后') < 0) {
 						let content = eventDetail[item["ann_id"]]['content'];
 						let datalist = content.match(regex);
-						if (datalist && datalist.length >= 7) {
-							let ctime = moment(datalist[0])
+						if (datalist && datalist.length >= 6) {
+							let year = moment().year()
+							if (datalist[1]) {
+								year = datalist[1]
+							}
+							let ctime = moment(`${year}-${datalist[2]}-${datalist[3]} ${datalist[4]}:${datalist[5]}`)
 							if (ctime > start && ctime < end) {
 								start = ctime
 							}
@@ -99,16 +107,15 @@ export default Vue.defineComponent({
 						img: item['banner'], // 背景图片
 					}
 
-					if (item['tag_label'].indexOf('扭蛋') >= 0) {
+					if (item['title'].indexOf('补给') >= 0 ||
+						item['title'].indexOf('精准') >= 0) {
 						event.type = 3
 						event.color = '#ffc107'
-					} else if (item['tag_label'].indexOf('活动') >= 0) {
+					} else if (item['type'] === 20) {
 						event.type = 2
 						event.color = '#f764ad'
 					}
-
-
-
+					
 					this.eventCalendar.push(event);
 				}
 
