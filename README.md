@@ -1,5 +1,6 @@
 # calendar.neptunia.vip
-for game calendar
+
+设计来自 https://www.ffxiv.cn/ 感谢设计师大佬，前端大佬！
 
 主要是给bot截图用
 
