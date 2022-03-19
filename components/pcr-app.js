@@ -357,7 +357,7 @@ export default Vue.defineComponent({
 		getStarTimeIndex(obj) {
 			let startTimeIndex = -1;
 			const { startDateUnix, fristDayUnix, lastdayUnix } = obj;
-			if (startDateUnix && startDateUnix < lastdayUnix) {
+			if (startDateUnix && startDateUnix <= lastdayUnix) {
 				if (startDateUnix <= fristDayUnix) {
 					startTimeIndex = 0;
 				} else {

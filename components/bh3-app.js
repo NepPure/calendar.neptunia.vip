@@ -115,7 +115,7 @@ export default Vue.defineComponent({
 						event.type = 2
 						event.color = '#f764ad'
 					}
-					
+
 					this.eventCalendar.push(event);
 				}
 
@@ -277,7 +277,7 @@ export default Vue.defineComponent({
 		getStarTimeIndex(obj) {
 			let startTimeIndex = -1;
 			const { startDateUnix, fristDayUnix, lastdayUnix } = obj;
-			if (startDateUnix && startDateUnix < lastdayUnix) {
+			if (startDateUnix && startDateUnix <= lastdayUnix) {
 				if (startDateUnix <= fristDayUnix) {
 					startTimeIndex = 0;
 				} else {
