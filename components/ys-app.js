@@ -98,16 +98,17 @@ export default Vue.defineComponent({
 						color: '#2196f3', // 标签颜色#2196f3 常规 #ffc107 卡池 #580dda 深渊 #f764ad 活动
 						img: item['banner'], // 背景图片
 					}
-
-					if (item['tag_label'].indexOf('扭蛋') >= 0) {
+					if (item['title'].indexOf('双倍') >= 0) {
+						event.type = 4
+						event.color = '#580dda'
+					}
+					else if (item['tag_label'].indexOf('扭蛋') >= 0) {
 						event.type = 3
 						event.color = '#ffc107'
 					} else if (item['tag_label'].indexOf('活动') >= 0) {
 						event.type = 2
 						event.color = '#f764ad'
 					}
-
-
 
 					this.eventCalendar.push(event);
 				}
