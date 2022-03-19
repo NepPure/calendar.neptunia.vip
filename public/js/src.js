@@ -25,6 +25,7 @@ export function requestText(url) {
 export const template =
 	`  <!-- 活动日历 -->
 	<div class="calendar-wapper">
+	<div>
 	<div class="m-events-calendar">
 	  <div class="m-events-calendar" v-if="evetData.length">
 		<div class="m-events-calenda__m-right">
@@ -124,8 +125,11 @@ export const template =
 		</div>
 		</div>
 	  </div>
+	</div>	
+	<div class="text">github.com/NepPure/calendar.neptunia.vip</div>
 	</div>
-</div>`;
+</div>
+`;
 
 export const mymixin = {
 	data() {

@@ -158,6 +158,7 @@ body {
   position: relative;
   padding-bottom: 1px;
   border-radius: 10px;
+  box-shadow: 0 0 18px black;
 }
 .m-events-calendar__table-header {
   display: flex;
@@ -313,13 +314,18 @@ body {
   border-color: rgba(0, 0, 0, 0.5) transparent transparent transparent;
 }
 .calendar-wapper {
-  padding-right: 5px;
-  width: 549px;
-  background-color: #f3f3f3;
+  width: 630px;
+  background-color: #1e1d2c;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
+  padding-bottom: 50px;
+  padding-top: 50px;
+}
+.text {
+  text-align: center;
+  padding-top: 40px;
+  color: #5c6067;
 }
 .m-events-calendar__table-header-week {
   color: #cecece;
