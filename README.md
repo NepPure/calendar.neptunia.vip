@@ -6,4 +6,4 @@
 
 1. 原神：https://calendar.neptunia.vip/ys/index.html
 2. 崩3：https://calendar.neptunia.vip/bh3/index.html
-3. pcr: todo 数据源没有banner (╯‵□′)╯︵┻━┻
+3. pcr: https://calendar.neptunia.vip/pcr/index.html
