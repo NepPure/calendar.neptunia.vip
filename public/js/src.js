@@ -15,6 +15,13 @@ export function request(url) {
 	return JSON.parse(Http.responseText);
 }
 
+export function requestText(url) {
+	const Http = new XMLHttpRequest();
+	Http.open("GET", url, false);
+	Http.send();
+	return Http.responseText;
+}
+
 export const template =
 	`  <!-- 活动日历 -->
 	<div class="calendar-wapper">
