@@ -21,9 +21,6 @@ export default Vue.defineComponent({
 				"问卷",
 				"公平运营"
 			],
-			tableHeaderData: [],
-			weekUnixData: [],
-			evetData: [],
 			eventCalendar: []
 		}
 	},

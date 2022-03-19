@@ -128,6 +128,13 @@ export const template =
 </div>`;
 
 export const mymixin = {
+	data() {
+		return {
+			tableHeaderData: [],
+			weekUnixData: [],
+			evetData: [],
+		}
+	},
 	methods: {
 		init() {
 			// 从api获取数据

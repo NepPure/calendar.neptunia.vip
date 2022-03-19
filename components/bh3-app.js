@@ -23,10 +23,7 @@ export default Vue.defineComponent({
 				"米游社",
 				"攻略",
 				"社区"
-			],
-			tableHeaderData: [],
-			weekUnixData: [],
-			evetData: [],
+			],	
 			eventCalendar: []
 		}
 	},
