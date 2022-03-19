@@ -243,6 +243,16 @@ export default Vue.defineComponent({
 				}
 			}
 
+			// 还找不到？不会分词了
+			for (const key in this.imgDic) {
+				const r = key.match('\([^\x00-\xff]+)')
+				if (!r) {
+					continue
+				}
+				if (tevent.title.indexOf(r[1]) >= 0) {
+					return this.imgDic[key]
+				}
+			}
 			return ''
 		},
 
