@@ -1,5 +1,5 @@
 import Vue from "../public/js/vue.js";
-import { requestText, template, mymixin } from "../public/js/src.js";
+import { requestText, template, mymixin, request } from "../public/js/src.js";
 
 export default Vue.defineComponent({
 	name: "InfoApp",
@@ -10,8 +10,9 @@ export default Vue.defineComponent({
 	},
 	data() {
 		return {
-			listApi: `https://static.biligame.com/pcr/gw/calendar.js?t=${moment()}`,
-			detailApi: '',
+			listApi: `https://static.biligame.com/pcr/gw/calendar.js?t=${moment().unix()}`,
+			detailApi: 'https://le1-prod-all-gs-gzlj.bilibiligame.neppure.vip/information/ajax_announce?category=1&offset=',
+			detailList: [],
 			ignoredKeyWords: [
 				"修复",
 				"版本内容专题页",
@@ -22,6 +23,109 @@ export default Vue.defineComponent({
 				"公平运营"
 			],
 			eventCalendar: []
+		}
+	},
+	computed: {
+		imgDic() {
+			let result = {}
+			const list = _.reverse(this.detailList)
+			const regx = /「(.+)」/i
+			for (const detail of list) {
+				let img = detail.title.slider_image
+				if (!img) {
+					img = detail.title.thumbnail_image
+				}
+
+				if (detail.title.title.indexOf('团队战') >= 0) {
+					result['团队战'] = img
+					continue
+				}
+
+				if (detail.title.title.indexOf('露娜之塔') >= 0) {
+					result['露娜之塔'] = img
+					continue
+				}
+
+				if (detail.title.title.indexOf('助力庆典') >= 0) {
+					result['助力庆典'] = img
+					continue
+				}
+
+
+				if (detail.title.title.indexOf('大师币') >= 0) {
+					result['大师币'] = img
+					continue
+				}
+
+				if (detail.title.title.indexOf('普通') >= 0 &&
+					detail.title.title.indexOf('倍')) {
+					result['普通'] = img
+					continue
+				}
+
+				if (detail.title.title.indexOf('圣迹') >= 0 &&
+					detail.title.title.indexOf('倍')) {
+					result['圣迹'] = img
+					continue
+				}
+
+
+				if (detail.title.title.indexOf('经验') >= 0 &&
+					detail.title.title.indexOf('倍')) {
+					result['经验'] = img
+					continue
+				}
+
+				if (detail.title.title.indexOf('探索') >= 0 &&
+					detail.title.title.indexOf('倍')) {
+					result['探索'] = img
+					continue
+				}
+
+
+				if (detail.title.title.indexOf('高难') >= 0 &&
+					detail.title.title.indexOf('倍')) {
+					result['高难'] = img
+					continue
+				}
+
+				if (detail.title.title.indexOf('困难') >= 0 &&
+					detail.title.title.indexOf('倍')) {
+					result['困难'] = img
+					continue
+				}
+
+				if (detail.title.title.indexOf('地下城') >= 0 &&
+					detail.title.title.indexOf('倍')) {
+					result['地下城'] = img
+					continue
+				}
+
+				if (detail.title.title.indexOf('体力') >= 0 &&
+					detail.title.title.indexOf('倍')) {
+					result['体力'] = img
+					continue
+				}
+
+
+				if (detail.title.title.indexOf('附奖扭蛋') >= 0) {
+					result['附奖扭蛋'] = img
+					continue
+				}
+
+				if (detail.title.title.indexOf('家具') >= 0) {
+					result['家具'] = img
+					continue
+				}
+
+				//兜底
+				const mat = detail.title.title.match(regx)
+				if (mat) {
+					result[mat[1]] = img
+				}
+			}
+
+			return result
 		}
 	},
 	methods: {
@@ -65,6 +169,83 @@ export default Vue.defineComponent({
 			}
 		},
 
+		getImg(tevent) {
+			if (tevent.hdtype === 'tdz') {
+				return this.imgDic['团队战']
+			}
+
+			if (tevent.title.indexOf('露娜之塔') >= 0) {
+				return this.imgDic['露娜之塔']
+			}
+
+			if (tevent.title.indexOf('助力庆典') >= 0) {
+				return this.imgDic['助力庆典']
+			}
+
+			if (tevent.title.indexOf('大师币') >= 0 &&
+				tevent.title.indexOf('倍')) {
+				return this.imgDic['大师币']
+			}
+
+			if (tevent.title.indexOf('圣迹') >= 0 &&
+				tevent.title.indexOf('倍')) {
+				return this.imgDic['圣迹']
+			}
+
+			if (tevent.title.indexOf('普通') >= 0 &&
+				tevent.title.indexOf('倍')) {
+				return this.imgDic['普通']
+			}
+
+
+			if (tevent.title.indexOf('经验') >= 0 &&
+				tevent.title.indexOf('倍')) {
+				return this.imgDic['经验']
+			}
+
+			if (tevent.title.indexOf('探索') >= 0 &&
+				tevent.title.indexOf('倍')) {
+				return this.imgDic['探索']
+			}
+
+			if (tevent.title.indexOf('高难') >= 0 &&
+				tevent.title.indexOf('倍')) {
+				return this.imgDic['高难']
+			}
+
+			if (tevent.title.indexOf('困难') >= 0 &&
+				tevent.title.indexOf('倍')) {
+				return this.imgDic['困难']
+			}
+
+			if (tevent.title.indexOf('地下城') >= 0 &&
+				tevent.title.indexOf('倍')) {
+				return this.imgDic['地下城']
+			}
+
+			if (tevent.title.indexOf('体力') >= 0 &&
+				tevent.title.indexOf('倍')) {
+				return this.imgDic['体力']
+			}
+
+			if (tevent.title.indexOf('附奖扭蛋') >= 0) {
+				return this.imgDic['附奖扭蛋']
+			}
+
+			if (tevent.title.indexOf('家具') >= 0) {
+				return this.imgDic['家具']
+			}
+
+			//兜底
+			for (const key in this.imgDic) {
+				if (tevent.title.indexOf(key) >= 0) {
+					return this.imgDic[key]
+				}
+			}
+
+			return ''
+		},
+
 		initRemoteData() {
 			// this.eventCalendar = [{
 			// 	abbreviation: "第二十五期 团队战",
@@ -87,6 +268,13 @@ export default Vue.defineComponent({
 				console.error('接口数据异常');
 				return;
 			}
+
+			for (let index = 0; index <= 2; index++) {
+				const detail = request(this.detailApi + `${index * 10}&t=${moment().unix()}`)
+				detail.announce_list.forEach(m => this.detailList.push(m))
+			}
+
+
 			let tmpEvent = {}
 			const regex = /<div class='cl-t'>(.+?)<\/div>(?:<div class='cl-d'>(.+?)<\/div>)?/ig;
 
@@ -153,6 +341,7 @@ export default Vue.defineComponent({
 
 							if (!intemp) {
 								tmpEvent[hdtitle] = {
+									"hdtype": hdtype,
 									"title": hdtitle,
 									"abbrTitle": abbrTitle,
 									"start": hdstarttime,
@@ -172,6 +361,7 @@ export default Vue.defineComponent({
 
 
 				let tevent = {
+					title: event['title'],
 					start: event.start,
 					end: event.end,
 					startDate: event.start.format('YYYY/MM/DD'), // 开始日期
@@ -184,7 +374,10 @@ export default Vue.defineComponent({
 					link: '',
 					color: this.getColor(event.type),
 					img: "", // 背景图片
+					hdtype: event.hdtype
 				}
+
+				tevent.img = this.getImg(tevent)
 				this.eventCalendar.push(tevent)
 			}
 
