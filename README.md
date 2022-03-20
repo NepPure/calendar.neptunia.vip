@@ -7,3 +7,5 @@
 1. 原神：https://calendar.neptunia.vip/ys/index.html
 2. 崩3：https://calendar.neptunia.vip/bh3/index.html
 3. pcr: https://calendar.neptunia.vip/pcr/index.html
+4. fgo：todo
+5. 明日方舟：todo
