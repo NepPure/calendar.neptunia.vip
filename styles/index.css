@@ -314,13 +314,13 @@ body {
   border-color: rgba(0, 0, 0, 0.5) transparent transparent transparent;
 }
 .calendar-wapper {
-  width: 630px;
+  width: 600px;
   background-color: #1e1d2c;
   display: flex;
   align-items: center;
   justify-content: center;
   padding-bottom: 50px;
-  padding-top: 50px;
+  padding-top: 25px;
 }
 .text {
   text-align: center;
