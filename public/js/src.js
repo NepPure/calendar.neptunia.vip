@@ -113,6 +113,13 @@ export const template =
 			  >
 				{{ item.endTime }}结束
 			  </div>
+			  <!-- 格式四：当天为结束日期，且已经结束 -->
+			  <div
+				class="m-events-calendar__event-item-time"
+				v-if="item.formatTypes === 4"
+			  >
+				已结束
+			  </div>
 			</div>
 			<!-- 结束时间：天数等于1，切有结束时间 -->
 			<div
@@ -349,7 +356,8 @@ export const mymixin = {
 			const format = {
 				startAndEnd: 1, // 有开始日期与结束日期
 				onlyStartTime: 2, // 只有开始时间
-				onlyEndTime: 3 // 只有结束时间
+				onlyEndTime: 3, // 只有结束时间
+				alreadyEnd: 4 // 已结束
 			};
 			let reFrormat = 0;
 			const { weekDay = 0, startTime, endTime } = data;
@@ -357,12 +365,29 @@ export const mymixin = {
 			if (weekDay > 1) {
 				reFrormat = format.startAndEnd;
 				// 2 本周天数为1 且有开始时间
-			} else if (weekDay === 1 && startTime) {
-				reFrormat = format.onlyStartTime;
-				// 3 本周天数为1 且有结束时间
-			} else if (weekDay === 1 && endTime) {
-				reFrormat = format.onlyEndTime;
+			} else if (weekDay === 1) {
+				if (moment() < data.start) {
+					if (startTime) {
+						reFrormat = format.onlyStartTime;
+						// 还没开始显示即将开始时间
+					} else if (endTime) {
+						reFrormat = format.onlyEndTime;
+					}
+				} else {
+					if (moment() > data.end) {
+						// 已经结束显示已结束
+						reFrormat = format.alreadyEnd;
+					} else if (endTime) {
+						// 否则显示结束时间
+						reFrormat = format.onlyEndTime;
+					} else if (startTime) {
+						reFrormat = format.onlyStartTime;
+						// 活动未结束，在活动中显示结束时间
+					}
+				}
 			}
+
+
 
 			return reFrormat;
 		},
