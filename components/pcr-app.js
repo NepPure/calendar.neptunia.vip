@@ -11,7 +11,7 @@ export default Vue.defineComponent({
 	data() {
 		return {
 			listApi: `https://static.biligame.com/pcr/gw/calendar.js?t=${moment().unix()}`,
-			detailApi: 'https://le1-prod-all-gs-gzlj.bilibiligame.neppure.vip/information/ajax_announce?category=1&offset=',
+			detailApi: 'https://le1-prod-all-gs-gzlj-bilibiligame.neppure.vip/information/ajax_announce?category=1&offset=',
 			detailList: [],
 			ignoredKeyWords: [
 				"修复",
