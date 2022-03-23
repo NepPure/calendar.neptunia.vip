@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+	<meta charset="UTF-8">
+	<title>FGO日历</title>
+	<link rel="icon" href="favicon.ico">
+	<script src="../public/js/vue.global.js"></script>
+	<script src="../public/js/lodash.min.js"></script>
+	<script src="../public/js/moment.min.js"></script>
+	<link rel="stylesheet" href="../styles/iview.css" />
+	<link rel="stylesheet" href="../styles/index.css" />
+</head>
+
+<body>
+
+	<div id="app"></div>
+
+	<script type="module">
+		import App from "../components/fgo-app.js";
+
+		Vue.createApp(App).mount("#app");
+	</script>
+
+</body>
+
+</html>
