@@ -36,6 +36,10 @@ export default Vue.defineComponent({
 					img = detail.title.thumbnail_image
 				}
 
+				if (!img) {
+					continue
+				}
+
 				if (detail.title.title.indexOf('团队战') >= 0) {
 					result['团队战'] = img
 					continue
@@ -58,51 +62,69 @@ export default Vue.defineComponent({
 				}
 
 				if (detail.title.title.indexOf('普通') >= 0 &&
-					detail.title.title.indexOf('倍')) {
-					result['普通'] = img
+					detail.title.title.indexOf('2倍') >= 0) {
+					result['普通2'] = img
 					continue
 				}
 
-				if (detail.title.title.indexOf('圣迹') >= 0 &&
-					detail.title.title.indexOf('倍')) {
-					result['圣迹'] = img
+				if (detail.title.title.indexOf('普通') >= 0 &&
+					detail.title.title.indexOf('3倍') >= 0) {
+					result['普通3'] = img
+					continue
+				}
+
+				if (detail.title.title.indexOf('调查') >= 0 &&
+					detail.title.title.indexOf('2倍') >= 0) {
+					result['调查2'] = img
+					continue
+				}
+
+				if (detail.title.title.indexOf('调查') >= 0 &&
+					detail.title.title.indexOf('3倍') >= 0) {
+					result['调查3'] = img
 					continue
 				}
 
 
 				if (detail.title.title.indexOf('经验') >= 0 &&
-					detail.title.title.indexOf('倍')) {
+					detail.title.title.indexOf('倍') >= 0) {
 					result['经验'] = img
 					continue
 				}
 
 				if (detail.title.title.indexOf('探索') >= 0 &&
-					detail.title.title.indexOf('倍')) {
+					detail.title.title.indexOf('倍') >= 0) {
 					result['探索'] = img
 					continue
 				}
 
 
 				if (detail.title.title.indexOf('高难') >= 0 &&
-					detail.title.title.indexOf('倍')) {
+					detail.title.title.indexOf('倍') >= 0) {
 					result['高难'] = img
 					continue
 				}
 
 				if (detail.title.title.indexOf('困难') >= 0 &&
-					detail.title.title.indexOf('倍')) {
-					result['困难'] = img
+					detail.title.title.indexOf('2倍') >= 0) {
+					result['困难2'] = img
+					continue
+				}
+
+				if (detail.title.title.indexOf('困难') >= 0 &&
+					detail.title.title.indexOf('3倍') >= 0) {
+					result['困难3'] = img
 					continue
 				}
 
 				if (detail.title.title.indexOf('地下城') >= 0 &&
-					detail.title.title.indexOf('倍')) {
+					detail.title.title.indexOf('倍') >= 0) {
 					result['地下城'] = img
 					continue
 				}
 
 				if (detail.title.title.indexOf('体力') >= 0 &&
-					detail.title.title.indexOf('倍')) {
+					detail.title.title.indexOf('倍') >= 0) {
 					result['体力'] = img
 					continue
 				}
@@ -171,69 +193,117 @@ export default Vue.defineComponent({
 
 		getImg(tevent) {
 			if (tevent.hdtype === 'tdz') {
-				return this.imgDic['团队战']
+				if (this.imgDic['团队战']) {
+					return this.imgDic['团队战']
+				}
 			}
 
 			if (tevent.title.indexOf('露娜之塔') >= 0) {
-				return this.imgDic['露娜之塔']
-			}
-
-			if (tevent.title.indexOf('助力庆典') >= 0) {
-				return this.imgDic['助力庆典']
+				if (this.imgDic['露娜之塔']) {
+					return this.imgDic['露娜之塔']
+				}
 			}
 
 			if (tevent.title.indexOf('大师币') >= 0 &&
-				tevent.title.indexOf('倍')) {
-				return this.imgDic['大师币']
+				tevent.title.indexOf('倍') >= 0) {
+				if (this.imgDic['大师币']) {
+					return this.imgDic['大师币']
+				}
 			}
 
-			if (tevent.title.indexOf('圣迹') >= 0 &&
-				tevent.title.indexOf('倍')) {
-				return this.imgDic['圣迹']
+			if (tevent.title.indexOf('调查') >= 0 &&
+				tevent.title.indexOf('2倍') >= 0) {
+				if (this.imgDic['调查2']) {
+					return this.imgDic['调查2']
+				}
+			}
+
+			if (tevent.title.indexOf('调查') >= 0 &&
+				tevent.title.indexOf('3倍') >= 0) {
+				if (this.imgDic['调查3']) {
+					return this.imgDic['调查3']
+				}
 			}
 
 			if (tevent.title.indexOf('普通') >= 0 &&
-				tevent.title.indexOf('倍')) {
-				return this.imgDic['普通']
+				tevent.title.indexOf('2倍') >= 0) {
+				if (this.imgDic['普通2']) {
+					return this.imgDic['普通2']
+				}
 			}
 
+			if (tevent.title.indexOf('普通') >= 0 &&
+				tevent.title.indexOf('3倍') >= 0) {
+				if (this.imgDic['普通3']) {
+					return this.imgDic['普通3']
+				}
+			}
 
 			if (tevent.title.indexOf('经验') >= 0 &&
-				tevent.title.indexOf('倍')) {
-				return this.imgDic['经验']
+				tevent.title.indexOf('倍') >= 0) {
+				if (this.imgDic['经验']) {
+					return this.imgDic['经验']
+				}
 			}
 
 			if (tevent.title.indexOf('探索') >= 0 &&
-				tevent.title.indexOf('倍')) {
-				return this.imgDic['探索']
+				tevent.title.indexOf('倍') >= 0) {
+				if (this.imgDic['探索']) {
+					return this.imgDic['探索']
+				}
 			}
 
 			if (tevent.title.indexOf('高难') >= 0 &&
-				tevent.title.indexOf('倍')) {
-				return this.imgDic['高难']
+				tevent.title.indexOf('倍') >= 0) {
+				if (this.imgDic['高难']) {
+					return this.imgDic['高难']
+				}
 			}
 
 			if (tevent.title.indexOf('困难') >= 0 &&
-				tevent.title.indexOf('倍')) {
-				return this.imgDic['困难']
+				tevent.title.indexOf('2倍') >= 0) {
+				if (this.imgDic['困难2']) {
+					return this.imgDic['困难2']
+				}
+			}
+
+			if (tevent.title.indexOf('困难') >= 0 &&
+				tevent.title.indexOf('3倍') >= 0) {
+				if (this.imgDic['困难3']) {
+					return this.imgDic['困难3']
+				}
 			}
 
 			if (tevent.title.indexOf('地下城') >= 0 &&
-				tevent.title.indexOf('倍')) {
-				return this.imgDic['地下城']
+				tevent.title.indexOf('倍') >= 0) {
+				if (this.imgDic['地下城']) {
+					return this.imgDic['地下城']
+				}
 			}
 
 			if (tevent.title.indexOf('体力') >= 0 &&
-				tevent.title.indexOf('倍')) {
-				return this.imgDic['体力']
+				tevent.title.indexOf('倍') >= 0) {
+				if (this.imgDic['体力']) {
+					return this.imgDic['体力']
+				}
 			}
 
 			if (tevent.title.indexOf('附奖扭蛋') >= 0) {
-				return this.imgDic['附奖扭蛋']
+				if (this.imgDic['附奖扭蛋']) {
+					return this.imgDic['附奖扭蛋']
+				}
 			}
 
 			if (tevent.title.indexOf('家具') >= 0) {
-				return this.imgDic['家具']
+				if (this.imgDic['家具']) {
+					return this.imgDic['家具']
+				}
+			}
+
+			if (tevent.title.indexOf('助力庆典') >= 0) {
+				if (this.imgDic['助力庆典']) {
+					return this.imgDic['助力庆典']
+				}
 			}
 
 			//兜底
